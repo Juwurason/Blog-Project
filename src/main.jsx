@@ -5,6 +5,7 @@ import App from './Pages/App'
 import Login from "./Pages/Login/Login"
 import Notfound from './Pages/Notfound'
 import Signup from './Pages/Signup/Signup'
+import 'react-toastify/dist/ReactToastify.css'
 // import "./Pages/styles.css"
 const router = createBrowserRouter(
  [

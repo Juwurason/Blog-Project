@@ -1,38 +1,53 @@
-import { useState } from "react";
-// import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css"
+import axios from "axios";
+import { useState, useEffect } from "react";
+import {ToastContainer, toast} from 'react-toastify'
+import http from "../api/http";
 
 const Signup = () => {
-	const [data, setData] = useState({  
-		firstName: "",
-		lastName: "",
-		email: "",
-		password: "",
-	});
+
+	const generateError = (err) => {toast.error(err, {
+		position: toast.POSITION.TOP_RIGHT
+	})};
+    const [userName, setUserName] = useState('')
+    const [fullname, setfullname] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [emailErr, setEmailErr] = useState('')
+    const [passErr, setPassErr] = useState('')
 	const [error, setError] = useState("");
+
 	const navigate = useNavigate();
 
-	const handleChange = ({ currentTarget: input }) => {
-		setData({ ...data, [input.name]: input.value });
-	};
-
+useEffect(()=>{
+	
+},[])
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// try {
-		// 	const url = "http://localhost:8080/api/users";
-		// 	const { data: res } = await axios.post(url, data);
-		// 	navigate("/login");
-		// 	console.log(res.message);
-		// } catch (error) {
-		// 	if (
-		// 		error.response &&
-		// 		error.response.status >= 400 &&
-		// 		error.response.status <= 500
-		// 	) {
-		// 		setError(error.response.data.message);
-		// 	}
-		// }
+		const newSign ={
+            email: email,
+            password: password,
+            username: userName,
+			fullname: fullname
+        }
+        try {
+            const {data} = await http.post("/signup",newSign)
+            console.log(data);
+            if (data.errors) {
+                setEmailErr(data.errors.email)
+                setPassErr(data.errors.password)
+				if (emailErr) generateError(emailErr)
+				else if (passErr) generateError(passErr)
+            }else{
+				console.log('Posted');
+                // window.location = "/"
+                localStorage.setItem("jwt", data)
+            }
+        } catch (error) {
+			return console.log(error);
+        }
+		
 	};
 
 	return (
@@ -42,37 +57,41 @@ const Signup = () => {
 					<h1>Welcome Back</h1>
 					<Link to="/login">
 						<button type="button" className={styles.white_btn}>
-							Sing in
+							Sign in
 						</button>
 					</Link>
 				</div>
 				<div className={styles.right}>
 					<form className={styles.form_container} onSubmit={handleSubmit}>
+					<ToastContainer />
 						<h1>Create Account</h1>
+						
 						<input
 							type="text"
-							placeholder="First Name"
-							name="firstName"
-							onChange={handleChange}
-							value={data.firstName}
+							placeholder="fulname"
+							name="fullname"
+							onChange={e => setfullname(e.target.value)}
+							value={fullname}
 							required
 							className={styles.input}
 						/>
+
 						<input
 							type="text"
-							placeholder="Last Name"
-							name="lastName"
-							onChange={handleChange}
-							value={data.lastName}
+							placeholder="UserName"
+							name="userName"
+							onChange={e => setUserName(e.target.value)}
+							value={userName}
 							required
 							className={styles.input}
 						/>
+
 						<input
 							type="email"
 							placeholder="Email"
 							name="email"
-							onChange={handleChange}
-							value={data.email}
+							onChange={e => setEmail(e.target.value)}
+							value={email}
 							required
 							className={styles.input}
 						/>
@@ -80,14 +99,14 @@ const Signup = () => {
 							type="password"
 							placeholder="Password"
 							name="password"
-							onChange={handleChange}
-							value={data.password}
+							onChange={e => setPassword(e.target.value)}
+							value={password}
 							required
 							className={styles.input}
 						/>
-						{error && <div className={styles.error_msg}>{error}</div>}
+						{/* {error && <div className={styles.error_msg}>{error}</div>} */}
 						<button type="submit" className={styles.green_btn}>
-							Sing Up
+							Sign Up
 						</button>
 					</form>
 				</div>
