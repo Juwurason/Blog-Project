@@ -30,7 +30,7 @@ const Login = () => {
             if (user) {
                 // navigate(-1)
             }
-        },[])
+        },[emailErr, passErr])
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

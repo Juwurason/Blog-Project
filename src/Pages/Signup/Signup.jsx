@@ -22,7 +22,7 @@ const Signup = () => {
 
 useEffect(()=>{
 	
-},[])
+},[emailErr, passErr])
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const newSign ={
