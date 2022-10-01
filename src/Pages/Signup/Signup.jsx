@@ -4,25 +4,29 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import {ToastContainer, toast} from 'react-toastify'
 import http from "../api/http";
+import "./Signup.css"
+import { useAuth } from "../context/Theme";
+import Button from "../../Component/Button";
+import la from "../../assets/la.jpg"
 
 const Signup = () => {
+
+	const {theme} = useAuth()
 
 	const generateError = (err) => {toast.error(err, {
 		position: toast.POSITION.TOP_RIGHT
 	})};
+	const [loading, setLoading] = useState(false)
     const [userName, setUserName] = useState('')
     const [fullname, setfullname] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [emailErr, setEmailErr] = useState('')
-    const [passErr, setPassErr] = useState('')
-	const [error, setError] = useState("");
 
 	const navigate = useNavigate();
 
 useEffect(()=>{
 	
-},[emailErr, passErr])
+},[])
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const newSign ={
@@ -32,13 +36,13 @@ useEffect(()=>{
 			fullname: fullname
         }
         try {
+			setLoading(true)
             const {data} = await http.post("/signup",newSign)
             console.log(data);
             if (data.errors) {
-                setEmailErr(data.errors.email)
-                setPassErr(data.errors.password)
-				if (emailErr) generateError(emailErr)
-				else if (passErr) generateError(passErr)
+              const {email, password} = data.errors
+				if (email) generateError(email)
+				else if (password) generateError(password)
             }else{
 				console.log('Posted');
                 // window.location = "/"
@@ -47,13 +51,17 @@ useEffect(()=>{
         } catch (error) {
 			return console.log(error);
         }
+		finally{
+			setLoading(false)
+		  }
 		
 	};
 
 	return (
-		<div className={styles.signup_container}>
-			<div className={styles.signup_form_container}>
-				<div className={styles.left}>
+		<div className={styles.signup_container} id={theme}>
+			<Button />
+			<div className={styles.signup_form_container} id={theme}>
+				<div className={styles.left} style={{backgroundImage:` url(${la})`}}>
 					<h1>Welcome Back</h1>
 					<Link to="/login">
 						<button type="button" className={styles.white_btn}>
@@ -61,9 +69,8 @@ useEffect(()=>{
 						</button>
 					</Link>
 				</div>
-				<div className={styles.right}>
+				<div className={styles.right} id={theme}>
 					<form className={styles.form_container} onSubmit={handleSubmit}>
-					<ToastContainer />
 						<h1>Create Account</h1>
 						
 						<input
@@ -104,13 +111,14 @@ useEffect(()=>{
 							required
 							className={styles.input}
 						/>
-						{/* {error && <div className={styles.error_msg}>{error}</div>} */}
 						<button type="submit" className={styles.green_btn}>
+						<span hidden={!loading} className="spinner-border spinner-border-sm"></span>
 							Sign Up
 						</button>
 					</form>
 				</div>
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };

@@ -3,9 +3,15 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import {ToastContainer, toast} from 'react-toastify'
-import axios from "axios";
 import http from "../api/http";
+import Theme, { useAuth } from "../context/Theme";
+import "./Login.css"
+import Button from "../../Component/Button";
+import imag from "../../assets/imag.jpg"
+
 const Login = () => {
+   
+	const {theme} = useAuth()
 
 	const generateError = (err) => {toast.error(err, {
 		position: toast.POSITION.TOP_LEFT
@@ -13,8 +19,7 @@ const Login = () => {
 	let navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [emailErr, setEmailErr] = useState('')
-    const [passErr, setPassErr] = useState('')
+	const [loading, setLoading] = useState(false)
 
 	const auth = () =>{
         const jwt = localStorage.getItem("jwt")
@@ -30,7 +35,7 @@ const Login = () => {
             if (user) {
                 // navigate(-1)
             }
-        },[emailErr, passErr])
+        },[])
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -39,30 +44,32 @@ const Login = () => {
             password: password,
         }
         try {
+			setLoading(true)
             const {data} = await http.post('/login',newLogin)
             console.log(data);
             if (data.errors) {
-                setEmailErr(data.errors.email)
-                setPassErr(data.errors.password)
-			 if (emailErr) generateError(emailErr)
-			  else	if (passErr) generateError(passErr)
+               const {email, password} = data.errors
+			   if (email) generateError(email)
+			   else if (password) generateError(password)
             }else{
             //    window.location = "/"
-
 			console.log("successful log"); 
                 localStorage.setItem("jwt", data)
             }
         } catch (error) {
 			return  console.log(error);
         }
+		finally{
+			setLoading(false)
+		  }
 	};
 
 	return (
-		<div className={styles.login_container}>
-			<div className={styles.login_form_container}>
-				<div className={styles.left}>
+		<div className={styles.login_container} id={theme} >
+			<Button />
+			<div className={styles.login_form_container} id={theme}>
+				<div className={styles.left} id={theme}>
 					<form className={styles.form_container} onSubmit={handleSubmit}>
-					<ToastContainer />
 						<h1>Login to Your Account</h1>
 						<input
 							type="email"
@@ -82,13 +89,13 @@ const Login = () => {
 							required
 							className={styles.input}
 						/>
-						{/* {error && <div className={styles.error_msg}>{error}</div>} */}
 						<button type="submit" className={styles.green_btn}>
+						<span hidden={!loading} className="spinner-border spinner-border-sm"></span>
 							Sign In
 						</button>
 					</form>
 				</div>
-				<div className={styles.right}>
+				<div className={styles.right} style={{backgroundImage:` url(${imag})`}}>
 					<h1>New Here ?</h1>
 					<Link to="/signup">
 						<button type="button" className={styles.white_btn}>
@@ -97,6 +104,7 @@ const Login = () => {
 					</Link>
 				</div>
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };
