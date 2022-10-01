@@ -8,10 +8,19 @@ import "./Signup.css"
 import { useAuth } from "../context/Theme";
 import Button from "../../Component/Button";
 import la from "../../assets/la.jpg"
+import Aos from "aos";
 
 const Signup = () => {
 
-	const {theme} = useAuth()
+	const {theme,user} = useAuth()
+
+	useEffect(()=>{
+		Aos.init()
+
+		if (user) {
+			navigate(-1)
+		}
+	},[])
 
 	const generateError = (err) => {toast.error(err, {
 		position: toast.POSITION.TOP_RIGHT
@@ -45,7 +54,7 @@ useEffect(()=>{
 				else if (password) generateError(password)
             }else{
 				console.log('Posted');
-                // window.location = "/"
+                window.location = "/"
                 localStorage.setItem("jwt", data)
             }
         } catch (error) {
@@ -58,7 +67,11 @@ useEffect(()=>{
 	};
 
 	return (
-		<div className={styles.signup_container} id={theme}>
+		<div className={styles.signup_container} id={theme} 
+		data-aos="flip-up"
+		data-aos-easing="linear"
+		data-aos-duration="1600"
+		>
 			<Button />
 			<div className={styles.signup_form_container} id={theme}>
 				<div className={styles.left} style={{backgroundImage:` url(${la})`}}>

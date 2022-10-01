@@ -8,34 +8,26 @@ import Theme, { useAuth } from "../context/Theme";
 import "./Login.css"
 import Button from "../../Component/Button";
 import imag from "../../assets/imag.jpg"
+import Aos from "aos";
 
 const Login = () => {
    
-	const {theme} = useAuth()
+	const {theme, user} = useAuth()
+	let navigate = useNavigate()
+	useEffect(()=>{
+		Aos.init()
+		if (user) {
+			navigate(-1)
+		}
+	},[])
 
 	const generateError = (err) => {toast.error(err, {
 		position: toast.POSITION.TOP_LEFT
 	})};
-	let navigate = useNavigate()
+	
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 	const [loading, setLoading] = useState(false)
-
-	const auth = () =>{
-        const jwt = localStorage.getItem("jwt")
-        if (jwt) {
-            return true
-        }else{
-            return false
-        }
-    }
-    const user = auth()
-    
-        useEffect(()=>{
-            if (user) {
-                // navigate(-1)
-            }
-        },[])
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -52,7 +44,7 @@ const Login = () => {
 			   if (email) generateError(email)
 			   else if (password) generateError(password)
             }else{
-            //    window.location = "/"
+               window.location = "/"
 			console.log("successful log"); 
                 localStorage.setItem("jwt", data)
             }
@@ -65,7 +57,11 @@ const Login = () => {
 	};
 
 	return (
-		<div className={styles.login_container} id={theme} >
+		<div className={styles.login_container} id={theme} 
+		data-aos="fade-down"
+		data-aos-easing="linear"
+		data-aos-duration="1600"
+		>
 			<Button />
 			<div className={styles.login_form_container} id={theme}>
 				<div className={styles.left} id={theme}>

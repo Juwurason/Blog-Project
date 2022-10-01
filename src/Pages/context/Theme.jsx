@@ -12,8 +12,18 @@ const Theme = ({children}) =>{
         else setTheme("light")
     }
 
+    const checked = () =>{
+      const jwt = localStorage.getItem("jwt")
+      if (jwt) {
+          return true
+      }else{
+          return false
+      }
+  }
+  const user = checked()
+
   return (
-    <ThemeContext.Provider value={{theme, setTheme, changeTheme}}>
+    <ThemeContext.Provider value={{theme, setTheme, changeTheme, user}}>
         {children}
     </ThemeContext.Provider>
   )

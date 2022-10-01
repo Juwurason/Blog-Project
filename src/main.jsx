@@ -7,6 +7,7 @@ import Notfound from './Pages/Notfound'
 import Signup from './Pages/Signup/Signup'
 import 'react-toastify/dist/ReactToastify.css'
 import Theme from './Pages/context/Theme'
+import 'aos/dist/aos.css'
 // import "./Pages/styles.css"
 const router = createBrowserRouter(
  [
