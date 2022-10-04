@@ -6,7 +6,6 @@ import {ToastContainer, toast} from 'react-toastify'
 import http from "../api/http";
 import Theme, { useAuth } from "../context/Theme";
 import "./Login.css"
-import Button from "../../Component/Button";
 import imag from "../../assets/imag.jpg"
 import Aos from "aos";
 
@@ -14,11 +13,11 @@ const Login = () => {
    
 	const {theme, user} = useAuth()
 	let navigate = useNavigate()
-	useEffect(()=>{
-		Aos.init()
+	useEffect(()=>{	
 		if (user) {
 			navigate(-1)
 		}
+		Aos.init()
 	},[])
 
 	const generateError = (err) => {toast.error(err, {
@@ -62,7 +61,6 @@ const Login = () => {
 		data-aos-easing="linear"
 		data-aos-duration="1600"
 		>
-			<Button />
 			<div className={styles.login_form_container} id={theme}>
 				<div className={styles.left} id={theme}>
 					<form className={styles.form_container} onSubmit={handleSubmit}>

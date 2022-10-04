@@ -6,7 +6,6 @@ import {ToastContainer, toast} from 'react-toastify'
 import http from "../api/http";
 import "./Signup.css"
 import { useAuth } from "../context/Theme";
-import Button from "../../Component/Button";
 import la from "../../assets/la.jpg"
 import Aos from "aos";
 
@@ -72,7 +71,6 @@ useEffect(()=>{
 		data-aos-easing="linear"
 		data-aos-duration="1600"
 		>
-			<Button />
 			<div className={styles.signup_form_container} id={theme}>
 				<div className={styles.left} style={{backgroundImage:` url(${la})`}}>
 					<h1>Welcome Back</h1>

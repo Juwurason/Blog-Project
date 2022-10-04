@@ -1,0 +1,62 @@
+*{
+    /* font-family: 'Source Sans Pro', sans-serif; */
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .main{ 
+    /* background-color: #227983; */
+    background-position:left;
+    background-size: cover;
+    min-height: 91vh;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  #card:hover{
+    box-shadow: 0px 0px 10px;
+  }
+  body{
+    overflow-x: hidden;
+  }
+  
+  .topContent{
+    height: 50vh;
+  }
+  
+  #titleTopContent{
+    background-color: #227983;
+    /* background-color: black; */
+  }
+  
+  #textContent{
+    /* background: rgba(13,202,240, 0.3); */
+    background: rgba(99,107,115, 0.3);
+  }
+  
+  #commentSection{
+    background: rgba(99,107,115, 0.3);
+  }
+  
+  #comment{
+    background-color: #227983;
+  }
+  
+  /* Media Query for Intro at top of landing page  */
+  @media (min-width: 1px) and (max-width: 576px) {
+    #intro{
+      width: 100% !important;
+    }
+  
+    .main{
+      min-height: max-content !important;
+    }
+  
+    #titleContent{
+      width: 100% !important;
+    }
+  
+    #comment{
+      width: 100% !important;
+    }
+  }
