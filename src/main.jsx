@@ -20,10 +20,10 @@ const router = createBrowserRouter(
   {path: '/signup', element: <Signup /> },
   {path: '/app', element: <App /> },
   {path: '/newblog', element: <Newblog /> },
-  // {path: '/content/:sid', element: <Content /> },
- {
-  element: <PrivateRoutes />, path:'/content/:sid', PrivateRoutes: <Content /> 
- }
+  {path: '/content/:sid', element: <Content /> },
+//  {
+//   element: <PrivateRoutes />, path:'/content/:sid', PrivateRoutes: <Content /> 
+//  }
   //   <Route element={<PrivateRoutes />}>
   // <Route element={<Content />} path='content/:sid' />
   // </Route>
